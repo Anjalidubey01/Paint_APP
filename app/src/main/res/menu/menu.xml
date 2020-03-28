@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+    android:title="NewPage"
+    android:id="@+id/eraser"
+    />
+    <item
+        android:title="Save@PNG"
+        android:id="@+id/png"
+        />
+    <item
+        android:title="Save@JPEG"
+        android:id="@+id/jpeg"
+        />
+    <item
+        android:title="Shape_Splitting"
+        android:id="@+id/split"/>
+</menu>
