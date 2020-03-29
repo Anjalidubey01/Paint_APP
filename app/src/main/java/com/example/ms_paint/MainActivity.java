@@ -103,8 +103,21 @@ public class MainActivity extends AppCompatActivity {
         });
         crop.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                View cont=paintView;
+            public void onClick(View v) {if(ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+                new AlertDialog.Builder(MainActivity.this).setTitle("Permission needed").setMessage("Permission needed to store in the external storage").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},STORAGE_PERMISSION_CODE);
+
+                    }
+                }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).create().show();
+            }
+              else{  View cont=paintView;
                 cont.setDrawingCacheEnabled(true);
                 cont.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
                 Bitmap bitmap = cont.getDrawingCache();
@@ -113,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 String path = MediaStore.Images.Media.insertImage(MainActivity.this.getContentResolver(),bitmap,"Tit",null);
                 Uri uri = Uri.parse(path);
                 CropImage.activity(uri).setGuidelines(CropImageView.Guidelines.ON).setMultiTouchEnabled(true).start(MainActivity.this);
-            }
+            }}
         });
         stroke.setOnClickListener(new View.OnClickListener() {
             @Override
