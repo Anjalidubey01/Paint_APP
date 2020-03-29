@@ -37,7 +37,12 @@
                 android:layout_height="47dp"
                 android:layout_weight="1"
                 app:srcCompat="@drawable/blue" />
-
+            <ImageButton
+                android:id="@+id/imageButton12"
+                android:layout_width="154dp"
+                android:layout_height="44dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/paint_plate1" />
         </LinearLayout>
 
 
@@ -65,24 +70,60 @@
                 android:layout_width="42dp"
                 android:layout_height="42dp"
                 android:layout_weight="1"
-                app:srcCompat="@android:drawable/btn_minus" />
+                app:srcCompat="@android:drawable/ic_notification_overlay" />
 
             <ImageButton
                 android:id="@+id/imageButton9"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
                 android:layout_weight="1"
-                app:srcCompat="@android:drawable/ic_menu_crop" />
+                app:srcCompat="@android:drawable/status_bar_item_background" />
 
             <ImageButton
                 android:id="@+id/imageButton4"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                app:srcCompat="@android:drawable/ic_menu_edit" />
+                app:srcCompat="?android:attr/fastScrollThumbDrawable" />
 
             <ImageButton
                 android:id="@+id/imageButton6"
+                android:layout_width="47dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:srcCompat="@android:drawable/btn_radio" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/imageButton15"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_weight="1"
+                app:srcCompat="@android:drawable/btn_minus" />
+
+            <ImageButton
+                android:id="@+id/imageButton19"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_weight="1"
+                app:srcCompat="@android:drawable/ic_menu_crop" />
+
+            <ImageButton
+                android:id="@+id/imageButton14"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:srcCompat="@android:drawable/ic_menu_edit" />
+
+            <ImageButton
+                android:id="@+id/imageButton16"
                 android:layout_width="47dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -90,7 +131,6 @@
 
 
         </LinearLayout>
-
 
 
 </LinearLayout>

@@ -14,31 +14,33 @@ import android.util.DisplayMetrics;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
-
 import java.util.ArrayList;
 
-
 public class PaintView extends View {
+   public float x,y;
+    public int fill=1;
     public static int BRUSH_SIZE = 20;
     public static final int DEFAULT_COLOR = Color.RED;
     public static final int DEFAULT_BG_COLOR = Color.WHITE;
     private static final float TOUCH_TOLERANCE = 4;
     private float mX, mY;
     private Path mPath;
-    private Paint mPaint;
+    public Paint mPaint;
     private ArrayList<FingerPath> paths = new ArrayList<>();
     public int currentColor;
     private int backgroundColor = DEFAULT_BG_COLOR;
     public int strokeWidth;
     private boolean emboss;
     private boolean blur;
+    public int width,height;
     private MaskFilter mEmboss;
     private MaskFilter mBlur;
-    private Bitmap mBitmap;
-    private Canvas mCanvas;
+    public Bitmap mBitmap;
+    public Canvas mCanvas,zoomi;
     private Paint mBitmapPaint = new Paint(Paint.DITHER_FLAG);
     private ScaleGestureDetector scaleGestureDetector;
     private float mscaleFactor = 2.1f;
+    float scale_canvas=1.5f;
     public PaintView(Context context) {
         this(context, null);
     }
@@ -61,8 +63,8 @@ public class PaintView extends View {
     }
 
     public void init(DisplayMetrics metrics) {
-        int height = metrics.heightPixels;
-        int width = metrics.widthPixels;
+        height = metrics.heightPixels;
+        width = metrics.widthPixels;
 
         mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         mCanvas = new Canvas(mBitmap);
@@ -88,33 +90,40 @@ public class PaintView extends View {
         canvas.save();
         mCanvas.drawColor(backgroundColor);
 
+
+          //  mPaint.setStyle(Paint.Style.STROKE);
         for (FingerPath fp : paths) {
             mPaint.setColor(fp.color);
             mPaint.setStrokeWidth(fp.strokeWidth);
             mPaint.setMaskFilter(null);
-
-            if (fp.emboss)
-                mPaint.setMaskFilter(mEmboss);
-            else if (fp.blur)
-                mPaint.setMaskFilter(mBlur);
-
-            mCanvas.drawPath(fp.path, mPaint);
-
+            //if (fp.emboss)
+            //    mPaint.setMaskFilter(mEmboss);
+            //else if (fp.blur)
+             //   mPaint.setMaskFilter(mBlur);
+//canvas.scale(mscaleFactor,mscaleFactor);
+   // canvas.scale(scale_canvas,scale_canvas);//invalidate();
+mCanvas.drawPath(fp.path, mPaint);
         }
-
-        canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
+float xci,yci;
+        xci=x;
+        yci=y;
+mCanvas.drawCircle(xci,yci,30,mPaint);
+ canvas.drawBitmap(mBitmap, 0, 0, mBitmapPaint);
         canvas.restore();
     }
 
     private void touchStart(float x, float y) {
         mPath = new Path();
-        FingerPath fp = new FingerPath(currentColor, emboss, blur, strokeWidth, mPath);
+        FingerPath fp = new FingerPath(currentColor, emboss, blur, strokeWidth, mPath,fill);
         paths.add(fp);
 
         mPath.reset();
         mPath.moveTo(x, y);
         mX = x;
         mY = y;
+    }
+    public void valida(){
+        invalidate();
     }
 
     private void touchMove(float x, float y) {
@@ -134,10 +143,12 @@ public class PaintView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        float x = event.getX();
-        float y = event.getY();
-
-        switch(event.getAction()) {
+        x = event.getX();
+        y = event.getY();
+//if(zoom==1){
+   // scaleGestureDetector.onTouchEvent(event);zoom=0;//}
+//else{
+switch(event.getAction()) {
             case MotionEvent.ACTION_DOWN :
                 touchStart(x, y);
                 invalidate();
@@ -150,19 +161,22 @@ public class PaintView extends View {
                 touchUp();
                 invalidate();
                 break;
-        }
-        scaleGestureDetector.onTouchEvent(event);
+
+            //    scaleGestureDetector.onTouchEvent(event);
+        }//}
+       // scaleGestureDetector.onTouchEvent(event);
         return true;
     }
     private class Scalelisener extends ScaleGestureDetector.SimpleOnScaleGestureListener{
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
-            mscaleFactor *=detector.getScaleFactor();
+            scale_canvas +=detector.getScaleFactor()/5;
             mX = detector.getFocusX();
             mY= detector.getFocusY();
-            mscaleFactor = Math.max(2.1f,Math.min(mscaleFactor,10.0f));
+            scale_canvas = Math.max(1.5f,Math.min(mscaleFactor,10.0f));
             invalidate();
             return true;
         }
+
     }
 }
